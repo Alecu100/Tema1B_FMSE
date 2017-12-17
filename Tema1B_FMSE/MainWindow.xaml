@@ -1,0 +1,15 @@
+﻿<Window x:Class="Tema1B_FMSE.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tema1B_FMSE"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Button x:Name="btnProve" Content="Prove" HorizontalAlignment="Left" Margin="10,89,0,0" VerticalAlignment="Top" Width="75" Click="BtnProve_OnClick" Height="29"/>
+        <TextBox x:Name="txtExpression" HorizontalAlignment="Left" Height="74" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="497"/>
+        <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="90,89,0,0" VerticalAlignment="Top" Width="75" Height="29"/>
+        <Label x:Name="lblLegend" Content="Legend: and=and, or=or, not=not, implication=imp " HorizontalAlignment="Left" Margin="178,91,0,0" VerticalAlignment="Top" Height="27"/>
+    </Grid>
+</Window>

@@ -1,0 +1,17 @@
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\bin\Debug\Tema1B_FMSE.exe.config
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\bin\Debug\Tema1B_FMSE.exe
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\bin\Debug\Tema1B_FMSE.pdb
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\bin\Debug\Microsoft.Z3.dll
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\bin\Debug\Microsoft.Z3.xml
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\bin\Debug\libz3.dll
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\Tema1B_FMSE.csprojResolveAssemblyReference.cache
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\MainWindow.g.cs
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\App.g.cs
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\Tema1B_FMSE_MarkupCompile.cache
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\Tema1B_FMSE_MarkupCompile.lref
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\MainWindow.baml
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\Tema1B_FMSE.g.resources
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\Tema1B_FMSE.Properties.Resources.resources
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\Tema1B_FMSE.csproj.GenerateResource.Cache
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\Tema1B_FMSE.exe
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\Tema1B_FMSE.pdb
