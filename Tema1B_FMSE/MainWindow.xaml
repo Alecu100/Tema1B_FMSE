@@ -8,7 +8,7 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <Button x:Name="btnProve" Content="Prove" HorizontalAlignment="Left" Margin="10,89,0,0" VerticalAlignment="Top" Width="75" Click="BtnProve_OnClick" Height="29"/>
-        <TextBox x:Name="txtExpression" HorizontalAlignment="Left" Height="74" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="497"/>
+        <TextBox x:Name="txtExpression" HorizontalAlignment="Left" Height="74" Margin="10,10,0,0" TextWrapping="Wrap" Text="(x and y) imp x" VerticalAlignment="Top" Width="497"/>
         <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="90,89,0,0" VerticalAlignment="Top" Width="75" Height="29"/>
         <Label x:Name="lblLegend" Content="Legend: and=and, or=or, not=not, implication=imp " HorizontalAlignment="Left" Margin="178,91,0,0" VerticalAlignment="Top" Height="27"/>
     </Grid>

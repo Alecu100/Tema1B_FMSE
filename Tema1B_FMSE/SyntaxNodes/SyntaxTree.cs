@@ -2,6 +2,11 @@
 {
     public class SyntaxTree : SyntaxNode
     {
-        public ValueSyntaxNode RootValue { get; set; }
+        public SyntaxNode RootValue { get; set; }
+
+        public override void AssignChild(SyntaxNode child)
+        {
+            RootValue = child;
+        }
     }
 }

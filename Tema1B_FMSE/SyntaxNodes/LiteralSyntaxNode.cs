@@ -2,6 +2,11 @@
 {
     public class LiteralSyntaxNode : SyntaxNode
     {
+        public LiteralSyntaxNode()
+        {
+            _isFinishedReading = true;
+        }
+
         public override void AssignChild(SyntaxNode child)
         {
             
