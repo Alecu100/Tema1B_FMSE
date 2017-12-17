@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tema1B_FMSE.SyntaxNodes;
+using Microsoft.Z3;
 
 namespace Tema1B_FMSE
 {
