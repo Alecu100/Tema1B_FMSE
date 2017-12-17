@@ -23,46 +23,112 @@ namespace Tema1B_FMSE.SyntaxNodes
                 var nextFoundToken = ReadNextToken();
 
 
-                if (LandedOnAndOperator(nextFoundToken))
+                if (LandedOnAndOperator(nextFoundToken) || LandedOnOrOperator(nextFoundToken) ||
+                    LandedOnNotOperator(nextFoundToken) || LandedOnCloseParanthesis(nextFoundToken) ||
+                    LandedOnOpenParanthesis(nextFoundToken) || LandedOnImpOperator(nextFoundToken))
                 {
-                    var orExpressionSyntaxNode = new BinaryExpressionSyntaxNode {OperationKind = EOperationKinds.Or};
-
-                    var syntaxNode = _availableSyntaxNodes.Pop();
-
-                    if (!(syntaxNode is ValueSyntaxNode))
+                    var literalSyntaxNode = new LiteralSyntaxNode
                     {
-                        throw new SyntaxTreeParserException("Expected value before \"or\" operator at index: " + _indexInExpression);
-                    }
+                        StartIndex = _indexInExpression,
+                        EndIndex = _indexInExpression + nextFoundToken.Length,
+                        LiteralValue = nextFoundToken
+                    };
 
-                    var valueSyntaxNode = (ValueSyntaxNode) syntaxNode;
-
-                    orExpressionSyntaxNode.LeftValue = valueSyntaxNode;
-
+                    PushNewSyntaxNode(literalSyntaxNode);
                     continue;
                 }
 
-                if (_availableSyntaxNodes.Peek() is SymbolSyntaxNode)
+                var symbolSyntaxNode = new SymbolSyntaxNode
                 {
-                    var symbolSyntaxNode = (SymbolSyntaxNode) _availableSyntaxNodes.Peek();
-
-                    if (nextFoundToken != " " && !symbolSyntaxNode.IsFinishedReading)
-                        symbolSyntaxNode.Id += nextFoundToken;
-                    else if (nextFoundToken == " " && !symbolSyntaxNode.IsFinishedReading)
-                    {
-                        symbolSyntaxNode.IsFinishedReading = true;
-
-                        if ()
-                    }
-
-                    continue;
-                }
-
-                var symbolSyntaxNode = new SymbolSyntaxNode();
-
-                symbolSyntaxNode.Id = nextFoundToken;
-
-                if ()
+                    StartIndex = _indexInExpression,
+                    EndIndex = _indexInExpression + nextFoundToken.Length,
+                    Id = nextFoundToken
+                };
+                PushNewSyntaxNode(symbolSyntaxNode);
             }
+        }
+
+        private void PushNewSyntaxNode(SyntaxNode syntaxNode)
+        {
+            if (syntaxNode is LiteralSyntaxNode)
+            {
+                var literalSyntaxNode = (LiteralSyntaxNode)syntaxNode;
+
+                if (literalSyntaxNode.LiteralValue == "and" || literalSyntaxNode.LiteralValue == "or" ||
+                    literalSyntaxNode.LiteralValue == "imp")
+                {
+                    var binaryExpressionSyntaxNode = new BinaryExpressionSyntaxNode();
+
+                    var valueSyntaxNode = (ValueSyntaxNode)_availableSyntaxNodes.Pop();
+                    valueSyntaxNode.IsFinishedReading = true;
+
+                    binaryExpressionSyntaxNode.AssignChild(valueSyntaxNode);
+                    binaryExpressionSyntaxNode.AssignChild(literalSyntaxNode);
+
+                    PushSyntaxNodeClosingPreviousIfAvailable(binaryExpressionSyntaxNode);
+
+                    return;
+                }
+
+                if (literalSyntaxNode.LiteralValue == "not")
+                {
+                    var unaryExpressionSyntaxNode = new UnaryExpressionSyntaxNode();
+                    unaryExpressionSyntaxNode.AssignChild(literalSyntaxNode);
+
+                    PushSyntaxNodeClosingPreviousIfAvailable(unaryExpressionSyntaxNode);
+
+                    return;
+                }
+
+                if (literalSyntaxNode.LiteralValue == "(")
+                {
+                    PushSyntaxNodeClosingPreviousIfAvailable(literalSyntaxNode);
+
+                    return;
+                }
+
+                if (literalSyntaxNode.LiteralValue == ")")
+                {
+                    var valueSyntaxNode = (ValueSyntaxNode) _availableSyntaxNodes.Pop();
+                    var previousLiteralSyntaxNode = (LiteralSyntaxNode) _availableSyntaxNodes.Pop();
+
+                    valueSyntaxNode.IsFinishedReading = true;
+                    previousLiteralSyntaxNode.IsFinishedReading = true;
+
+                    var blockExpressionSyntaxNode = new BlockExpressionSyntaxNode();
+
+                    blockExpressionSyntaxNode.AssignChild(previousLiteralSyntaxNode);
+                    blockExpressionSyntaxNode.AssignChild(valueSyntaxNode);
+                    blockExpressionSyntaxNode.AssignChild(literalSyntaxNode);
+
+                    PushSyntaxNodeClosingPreviousIfAvailable(blockExpressionSyntaxNode);
+
+                    return;
+                }
+            }
+
+            var lastSyntaxNode = _availableSyntaxNodes.Peek();
+
+
+            if (!lastSyntaxNode.IsFinishedReading && (syntaxNode is SymbolSyntaxNode))
+            {
+                lastSyntaxNode.AssignChild(syntaxNode);
+
+                if (lastSyntaxNode.IsFinishedReading && lastSyntaxNode.Parent != null)
+                {
+                    _availableSyntaxNodes.Pop();
+                }
+            }
+        }
+
+        private void PushSyntaxNodeClosingPreviousIfAvailable(SyntaxNode syntaxNodeToPush)
+        {
+            if (_availableSyntaxNodes.Count > 0)
+            {
+                _availableSyntaxNodes.Peek().IsFinishedReading = true;
+            }
+
+            _availableSyntaxNodes.Push(syntaxNodeToPush);
         }
 
         private string ReadNextToken()
@@ -94,6 +160,11 @@ namespace Tema1B_FMSE.SyntaxNodes
                 return _expressionText.Substring(_indexInExpression, 1);
             }
 
+            if (LandedOnImpOperator(_expressionText, _indexInExpression))
+            {
+                return _expressionText.Substring(_indexInExpression, 3);
+            }
+
             return _expressionText.Substring(_indexInExpression, 1);
         }
 
@@ -109,20 +180,26 @@ namespace Tema1B_FMSE.SyntaxNodes
 
         private bool LandedOnAndOperator(string expression, int startIndex = 0)
         {
-            return startIndex + 2 <= expression.Length && expression[startIndex] == 'a' &&
-                   expression[_indexInExpression + 1] == 'n' && expression[startIndex + 2] == 'd';
+            return startIndex + 2 < expression.Length && expression[startIndex] == 'a' &&
+                   expression[startIndex + 1] == 'n' && expression[startIndex + 2] == 'd';
         }
 
         private bool LandedOnOrOperator(string expression, int startIndex = 0)
         {
-            return startIndex + 1 <= expression.Length && expression[startIndex] == 'o' &&
+            return startIndex + 1 < expression.Length && expression[startIndex] == 'o' &&
                    expression[startIndex + 1] == 'r';
         }
 
-        private bool LandedOnNotOperator(string expression, int startIndex)
+        private bool LandedOnNotOperator(string expression, int startIndex = 0)
         {
-            return startIndex + 2 <= expression.Length && expression[startIndex] == 'n' &&
-                   expression[_indexInExpression + 1] == 'o' && expression[startIndex + 2] == 't';
+            return startIndex + 2 < expression.Length && expression[startIndex] == 'n' &&
+                   expression[startIndex + 1] == 'o' && expression[startIndex + 2] == 't';
+        }
+
+        private bool LandedOnImpOperator(string expression, int startIndex = 0)
+        {
+            return startIndex + 2 < expression.Length && expression[startIndex] == 'i' &&
+                   expression[startIndex] == 'm' && expression[startIndex] == 'p';
         }
 
         private void Initialize(string expressionText)

@@ -16,11 +16,6 @@ namespace Tema1B_FMSE.SyntaxNodes
         {
             if (LeftValue == null)
             {
-                if (!(child is ValueSyntaxNode))
-                {
-                    throw new SyntaxTreeParserException("Expected value expression at index", child.StartIndex);
-                }
-
                 var valueSyntaxNode = (ValueSyntaxNode) child;
                 LeftValue = valueSyntaxNode;
                 valueSyntaxNode.Parent = this;
@@ -33,11 +28,6 @@ namespace Tema1B_FMSE.SyntaxNodes
 
             if (Operator == null)
             {
-                if (!(child is LiteralSyntaxNode))
-                {
-                    throw new SyntaxTreeParserException("Expected literal expression at index", child.StartIndex);
-                }
-
                 var literalSyntaxNode = (LiteralSyntaxNode)child;
 
                 if (literalSyntaxNode.LiteralValue == "and")
@@ -60,21 +50,12 @@ namespace Tema1B_FMSE.SyntaxNodes
 
             if (RightValue == null)
             {
-                if (!(child is ValueSyntaxNode))
-                {
-                    throw new SyntaxTreeParserException("Expected value expression at index", child.StartIndex);
-                }
-
                 var valueSyntaxNode = (ValueSyntaxNode)child;
                 RightValue = valueSyntaxNode;
                 valueSyntaxNode.Parent = this;
                 EndIndex = valueSyntaxNode.EndIndex;
                 _isFinishedReading = true;
-
-                return;
             }
-
-            throw new SyntaxTreeParserException("Too many parameters passed to binary operator", StartIndex);
         }
     }
 }

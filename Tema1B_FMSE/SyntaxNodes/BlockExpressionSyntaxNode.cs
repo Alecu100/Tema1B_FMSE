@@ -12,17 +12,7 @@
         {
             if (LeftParanthesis == null)
             {
-                if (!(child is LiteralSyntaxNode))
-                {
-                    throw new SyntaxTreeParserException("Expected literal expression at index", child.StartIndex);
-                }
-
                 var literalSyntaxNode = (LiteralSyntaxNode) child;
-
-                if (literalSyntaxNode.LiteralValue != "(")
-                {
-                    throw new SyntaxTreeParserException("Expected open paranthesis at index", child.StartIndex);
-                }
 
                 LeftParanthesis = literalSyntaxNode;
                 literalSyntaxNode.Parent = this;
@@ -34,9 +24,24 @@
 
             if (InnerValue == null)
             {
-                
+                var valueSyntaxNode = (ValueSyntaxNode)child;
+
+                InnerValue = valueSyntaxNode;
+                valueSyntaxNode.Parent = this;
+                EndIndex = valueSyntaxNode.EndIndex;
+
+                return;
             }
 
+            if (RightParanthesis == null)
+            {
+                var literalSyntaxNode = (LiteralSyntaxNode)child;
+
+                RightParanthesis = literalSyntaxNode;
+                literalSyntaxNode.Parent = this;
+                EndIndex = literalSyntaxNode.EndIndex;
+                _isFinishedReading = true;
+            }
         }
     }
 }

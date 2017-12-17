@@ -5,9 +5,9 @@ namespace Tema1B_FMSE.SyntaxNodes
     public class SymbolSyntaxNode : ValueSyntaxNode
     {
         public string Id { get; set; }
+
         public override void AssignChild(SyntaxNode child)
         {
-
             if (!(child is SymbolSyntaxNode))
             {
                 throw new SyntaxTreeParserException("Invalid character for symbol", StartIndex);
@@ -17,13 +17,15 @@ namespace Tema1B_FMSE.SyntaxNodes
 
             if (!_isFinishedReading)
             {
-                if (symbolSyntaxNode.Id == " ")
+                if (symbolSyntaxNode.Id == " " || symbolSyntaxNode.Id == "and" || symbolSyntaxNode.Id == "or" ||
+                    symbolSyntaxNode.Id == "imp" || symbolSyntaxNode.Id == "not")
                 {
-                    this._isFinishedReading = true;
+                    _isFinishedReading = true;
                 }
                 else
                 {
-                    this.Id += symbolSyntaxNode.Id;
+                    Id += symbolSyntaxNode.Id;
+                    EndIndex = symbolSyntaxNode.EndIndex;
                 }
             }
         }

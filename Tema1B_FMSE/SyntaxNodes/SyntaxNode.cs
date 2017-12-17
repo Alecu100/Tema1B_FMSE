@@ -6,7 +6,11 @@
 
         public SyntaxNode Parent { get; set; }
 
-        public bool IsFinishedReading => _isFinishedReading;
+        public bool IsFinishedReading
+        {
+            get { return _isFinishedReading; }
+            set { _isFinishedReading = value; }
+        }
 
         public int StartIndex { get; set; }
 

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tema1B_FMSE.SyntaxNodes;
 
 namespace Tema1B_FMSE
 {
@@ -27,8 +28,9 @@ namespace Tema1B_FMSE
 
         private void BtnProve_OnClick(object sender, RoutedEventArgs e)
         {
-            
+            var syntaxTreeParser = new SyntaxTreeParser();
 
+            syntaxTreeParser.Parse(txtExpression.Text);
         }
     }
 }
