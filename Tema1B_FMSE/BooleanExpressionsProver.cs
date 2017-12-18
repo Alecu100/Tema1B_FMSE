@@ -12,6 +12,8 @@
 
         private Dictionary<string, IntExpr> _createdIntSymbols;
 
+        private Dictionary<string, Symbol> _createdSymbols = new Dictionary<string, Symbol>();
+
         private Context _currentContext;
 
         private BoolExpr _expressionTree;
@@ -40,13 +42,39 @@
             _expressionTree = (BoolExpr)ConstructExpression(syntaxTree.RootValue);
         }
 
+        private Symbol ConstructSymbol(SyntaxNode syntaxNode)
+        {
+            if (syntaxNode is BlockExpressionSyntaxNode)
+            {
+                var blockExpressionSyntaxNode = (BlockExpressionSyntaxNode)syntaxNode;
+                return ConstructSymbol(blockExpressionSyntaxNode.InnerValue);
+            }
+
+            if (syntaxNode is SymbolSyntaxNode)
+            {
+                 var symbolSyntaxNode = (SymbolSyntaxNode)syntaxNode;
+
+                if (_createdSymbols.ContainsKey(symbolSyntaxNode.Id)) return _createdSymbols[symbolSyntaxNode.Id];
+
+                var symbolInt = _currentContext.MkSymbol(symbolSyntaxNode.Id);
+                var intExpr = _currentContext.MkIntConst(symbolInt);
+
+                _createdIntSymbols[symbolSyntaxNode.Id] = intExpr;
+                _createdSymbols[symbolSyntaxNode.Id] = symbolInt;
+
+                return symbolInt;
+            }
+
+            return null;
+        }
+
         private Expr ConstructExpression(SyntaxNode syntaxNode)
         {
             if (syntaxNode is BlockExpressionSyntaxNode)
             {
                 var blockExpressionSyntaxNode = (BlockExpressionSyntaxNode)syntaxNode;
 
-                return ConstructExpression(blockExpressionSyntaxNode.InnerValue);
+                return WrapAroundDomainIfNeeded(ConstructExpression(blockExpressionSyntaxNode.InnerValue), blockExpressionSyntaxNode);
             }
 
             if (syntaxNode is SymbolSyntaxNode)
@@ -57,15 +85,42 @@
                 {
                     if (_createdBoolSymbols.ContainsKey(symbolSyntaxNode.Id)) return WrapAroundDomainIfNeeded(_createdBoolSymbols[symbolSyntaxNode.Id], symbolSyntaxNode);
 
-                    var boolExpr = _currentContext.MkBoolConst(symbolSyntaxNode.Id);
+                    Symbol symbolBool = null;
+                    if (_createdSymbols.ContainsKey(symbolSyntaxNode.Id))
+                    {
+                        symbolBool = _createdSymbols[symbolSyntaxNode.Id];
+                    }
+                    else
+                    {
+                        symbolBool = _currentContext.MkSymbol(symbolSyntaxNode.Id);
+                        _createdSymbols[symbolSyntaxNode.Id] = symbolBool;
+                    }
+  
+                    var boolExpr = _currentContext.MkBoolConst(symbolBool);
                     _createdBoolSymbols[symbolSyntaxNode.Id] = boolExpr;
+
+
                     return WrapAroundDomainIfNeeded(boolExpr, symbolSyntaxNode);
                 }
 
                 if (_createdIntSymbols.ContainsKey(symbolSyntaxNode.Id)) return WrapAroundDomainIfNeeded(_createdIntSymbols[symbolSyntaxNode.Id], symbolSyntaxNode);
 
-                var intExpr = _currentContext.MkIntConst(symbolSyntaxNode.Id);
+
+                Symbol symbolInt = null;
+
+                if (_createdSymbols.ContainsKey(symbolSyntaxNode.Id))
+                {
+                    symbolInt = _createdSymbols[symbolSyntaxNode.Id];
+                }
+                else
+                {
+                    symbolInt = _currentContext.MkSymbol(symbolSyntaxNode.Id);
+                    _createdSymbols[symbolSyntaxNode.Id] = symbolInt;
+                }
+
+                var intExpr = _currentContext.MkIntConst(symbolInt);
                 _createdIntSymbols[symbolSyntaxNode.Id] = intExpr;
+                _createdSymbols[symbolSyntaxNode.Id] = symbolInt;
                 return WrapAroundDomainIfNeeded(intExpr, symbolSyntaxNode);
             }
 
@@ -207,15 +262,20 @@
         {
             if (valueSyntaxNode.DomainValue != null)
             {
-                var domainExpression = ConstructExpression(valueSyntaxNode.DomainValue.InnerValue);
+                var domainSymbol = ConstructSymbol(valueSyntaxNode.DomainValue.InnerValue);
+
+                Sort[] sorts = new Sort[1];
+                sorts[0] = _currentContext.MkIntSort();
+                Symbol[] symbols = new Symbol[1];
+                symbols[0] = domainSymbol;
 
                 if (valueSyntaxNode.DomainValue.OperationKind == EOperationKinds.Any)
                 {
-                    currentExpression = _currentContext.MkForall(new[] { domainExpression }, currentExpression);
+                    currentExpression = _currentContext.MkForall(sorts, symbols, currentExpression);
                 }
                 else if (valueSyntaxNode.DomainValue.OperationKind == EOperationKinds.Exists)
                 {
-                    currentExpression = _currentContext.MkExists(new[] { domainExpression }, currentExpression);
+                    currentExpression = _currentContext.MkExists(sorts, symbols, currentExpression);
                 }
             }
 

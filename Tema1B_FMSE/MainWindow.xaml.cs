@@ -31,7 +31,8 @@ namespace Tema1B_FMSE
             ExpressionExamples.Add(new ExpressionExample("x and not x"));
             ExpressionExamples.Add(new ExpressionExample("(x and y and not z) imp (x and not z)"));
             ExpressionExamples.Add(new ExpressionExample("(x or not x) imp (x and not x)"));
-            ExpressionExamples.Add(new ExpressionExample("any (n) ((n gt 10) imp (n gt 15))"));
+            ExpressionExamples.Add(new ExpressionExample("any (n) ((n gt 10) imp (any (n) (n gt 15)))"));
+            ExpressionExamples.Add(new ExpressionExample("any (n) ((n gt 10) imp (n ls 0))"));
         }
 
         public ObservableCollection<ExpressionExample> ExpressionExamples { get; } = new ObservableCollection<ExpressionExample>();
