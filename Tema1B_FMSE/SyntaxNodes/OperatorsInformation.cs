@@ -19,7 +19,9 @@ namespace Tema1B_FMSE.SyntaxNodes
             {"eq", EOperationKinds.Equal},
             {"gte", EOperationKinds.GreaterOrEqual},
             {"gt", EOperationKinds.Greater},
-            {"min", EOperationKinds.Minus}
+            {"min", EOperationKinds.Minus},
+            {"any", EOperationKinds.Any },
+            {"exists", EOperationKinds.Exists }
         };
 
         public static Dictionary<EOperationKinds, ESymbolKinds> MappedOperationResults =
@@ -38,7 +40,9 @@ namespace Tema1B_FMSE.SyntaxNodes
                 {EOperationKinds.Equal, ESymbolKinds.Boolean},
                 {EOperationKinds.GreaterOrEqual, ESymbolKinds.Boolean},
                 {EOperationKinds.Greater, ESymbolKinds.Boolean},
-                {EOperationKinds.Minus, ESymbolKinds.Integer}
+                {EOperationKinds.Minus, ESymbolKinds.Integer},
+                {EOperationKinds.Any, ESymbolKinds.Any },
+                {EOperationKinds.Exists, ESymbolKinds.Any }
             };
 
         public static Dictionary<EOperationKinds, ESymbolKinds> MappedOperationInputs =
@@ -57,13 +61,17 @@ namespace Tema1B_FMSE.SyntaxNodes
                 {EOperationKinds.Equal, ESymbolKinds.Integer},
                 {EOperationKinds.GreaterOrEqual, ESymbolKinds.Integer},
                 {EOperationKinds.Greater, ESymbolKinds.Integer},
-                {EOperationKinds.Minus, ESymbolKinds.Integer}
+                {EOperationKinds.Minus, ESymbolKinds.Integer},
+                {EOperationKinds.Any, ESymbolKinds.Any },
+                {EOperationKinds.Exists, ESymbolKinds.Any }
             };
 
         public static List<EOperationKinds> UnaryOperations = new List<EOperationKinds>
         {
             EOperationKinds.Minus,
-            EOperationKinds.Not
+            EOperationKinds.Not,
+            EOperationKinds.Any,
+            EOperationKinds.Exists
         };
 
         public static Dictionary<string, EOperationKinds> MappedBinaryOperationKinds = new Dictionary<string, EOperationKinds>
@@ -85,7 +93,9 @@ namespace Tema1B_FMSE.SyntaxNodes
         public static Dictionary<string, EOperationKinds> MappedUnaryOperationKinds = new Dictionary<string, EOperationKinds>
         {
             {"not", EOperationKinds.Not},
-            {"min", EOperationKinds.Minus}
+            {"min", EOperationKinds.Minus},
+            {"any", EOperationKinds.Any},
+            {"exists", EOperationKinds.Exists}
         };
     }
 }

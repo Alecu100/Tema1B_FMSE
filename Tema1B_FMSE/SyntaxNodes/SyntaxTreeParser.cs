@@ -200,6 +200,19 @@ namespace Tema1B_FMSE.SyntaxNodes
                 PopSymbolSyntaxNodeIfUsedAndFinished();
             }
 
+            if (_availableSyntaxNodes.Count > 0 && (_availableSyntaxNodes.Peek() is UnaryExpressionSyntaxNode) && _availableSyntaxNodes.Peek().IsFinishedReading && (syntaxNodeToPush is ValueSyntaxNode))
+            {
+                var unaryExpressionSyntaxNode = (UnaryExpressionSyntaxNode)_availableSyntaxNodes.Peek();
+                var valueSyntaxNodeToPush = (ValueSyntaxNode)syntaxNodeToPush;
+
+                if (unaryExpressionSyntaxNode.OperationKind == EOperationKinds.Any || unaryExpressionSyntaxNode.OperationKind == EOperationKinds.Exists)
+                {
+                    valueSyntaxNodeToPush.AssignDomainValue(unaryExpressionSyntaxNode);
+                }
+
+                _availableSyntaxNodes.Pop();
+            }
+
             _availableSyntaxNodes.Push(syntaxNodeToPush);
         }
 

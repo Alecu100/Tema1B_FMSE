@@ -8,8 +8,6 @@ namespace Tema1B_FMSE.SyntaxNodes
         {
         }
 
-        public override IEnumerable<SyntaxNode> Children => new List<SyntaxNode>();
-
         public string LiteralValue { get; set; }
 
         public object Value

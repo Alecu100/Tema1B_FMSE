@@ -15,7 +15,7 @@ namespace Tema1B_FMSE.SyntaxNodes
             {
                 var literalSyntaxNode = (LiteralSyntaxNode) child;
 
-                OperationKind = EOperationKinds.Not;
+                OperationKind = OperatorsInformation.MappedUnaryOperationKinds[literalSyntaxNode.LiteralValue];
 
                 Operator = literalSyntaxNode;
                 literalSyntaxNode.Parent = this;

@@ -16,6 +16,8 @@
         Equal = 11,
         GreaterOrEqual = 12,
         Greater = 13,
-        Minus = 14
+        Minus = 14,
+        Any = 15,
+        Exists = 16
     }
 }

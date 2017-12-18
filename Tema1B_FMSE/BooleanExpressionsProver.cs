@@ -52,19 +52,19 @@ namespace Tema1B_FMSE
                 if (symbolSyntaxNode.SymbolKind == ESymbolKinds.Boolean)
                 {
                     if (_createdBoolSymbols.ContainsKey(symbolSyntaxNode.Id))
-                        return _createdBoolSymbols[symbolSyntaxNode.Id];
+                        return WrapAroundDomainIfNeeded(_createdBoolSymbols[symbolSyntaxNode.Id], symbolSyntaxNode);
 
                     var boolExpr = _currentContext.MkBoolConst(symbolSyntaxNode.Id);
                     _createdBoolSymbols[symbolSyntaxNode.Id] = boolExpr;
-                    return boolExpr;
+                    return WrapAroundDomainIfNeeded(boolExpr, symbolSyntaxNode);
                 }
 
                 if (_createdIntSymbols.ContainsKey(symbolSyntaxNode.Id))
-                    return _createdIntSymbols[symbolSyntaxNode.Id];
+                    return WrapAroundDomainIfNeeded(_createdIntSymbols[symbolSyntaxNode.Id], symbolSyntaxNode);
 
                 var intExpr = _currentContext.MkIntConst(symbolSyntaxNode.Id);
                 _createdIntSymbols[symbolSyntaxNode.Id] = intExpr;
-                return intExpr;
+                return WrapAroundDomainIfNeeded(intExpr, symbolSyntaxNode);
             }
 
             if (syntaxNode is ConstantValueSyntaxNode)
@@ -74,7 +74,8 @@ namespace Tema1B_FMSE
                 if (constantValueSyntaxNode.Value is bool)
                     return _currentContext.MkBool((bool) constantValueSyntaxNode.Value);
 
-                return _currentContext.MkInt((int) constantValueSyntaxNode.Value);
+                var currentExpression = _currentContext.MkInt((int) constantValueSyntaxNode.Value);
+                return WrapAroundDomainIfNeeded(currentExpression, constantValueSyntaxNode);
             }
 
             if (syntaxNode is BinaryExpressionSyntaxNode)
@@ -86,7 +87,8 @@ namespace Tema1B_FMSE
                     var leftExpression = (BoolExpr)ConstructExpression(binaryExpressionSyntaxNode.LeftValue);
                     var rightExpression = (BoolExpr)ConstructExpression(binaryExpressionSyntaxNode.RightValue);
 
-                    return _currentContext.MkAnd(leftExpression, rightExpression);
+                    var currentExpression = _currentContext.MkAnd(leftExpression, rightExpression);
+                    return WrapAroundDomainIfNeeded(currentExpression, binaryExpressionSyntaxNode);
                 }
 
 
@@ -95,7 +97,8 @@ namespace Tema1B_FMSE
                     var leftExpression = (BoolExpr)ConstructExpression(binaryExpressionSyntaxNode.LeftValue);
                     var rightExpression = (BoolExpr)ConstructExpression(binaryExpressionSyntaxNode.RightValue);
 
-                    return _currentContext.MkOr(leftExpression, rightExpression);
+                    var currentExpression = _currentContext.MkOr(leftExpression, rightExpression);
+                    return WrapAroundDomainIfNeeded(currentExpression, binaryExpressionSyntaxNode);
                 }
 
 
@@ -104,7 +107,8 @@ namespace Tema1B_FMSE
                     var leftExpression = (BoolExpr)ConstructExpression(binaryExpressionSyntaxNode.LeftValue);
                     var rightExpression = (BoolExpr)ConstructExpression(binaryExpressionSyntaxNode.RightValue);
 
-                    return _currentContext.MkImplies(leftExpression, rightExpression);
+                    var currentExpression = _currentContext.MkImplies(leftExpression, rightExpression);
+                    return WrapAroundDomainIfNeeded(currentExpression, binaryExpressionSyntaxNode);
                 }
 
                 if (binaryExpressionSyntaxNode.OperationKind == EOperationKinds.Add)
@@ -112,7 +116,8 @@ namespace Tema1B_FMSE
                     var leftExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.LeftValue);
                     var rightExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.RightValue);
 
-                    return _currentContext.MkAdd(leftExpression, rightExpression);
+                    var currentExpression = _currentContext.MkAdd(leftExpression, rightExpression);
+                    return WrapAroundDomainIfNeeded(currentExpression, binaryExpressionSyntaxNode);
                 }
 
                 if (binaryExpressionSyntaxNode.OperationKind == EOperationKinds.Divide)
@@ -120,7 +125,8 @@ namespace Tema1B_FMSE
                     var leftExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.LeftValue);
                     var rightExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.RightValue);
 
-                    return _currentContext.MkDiv(leftExpression, rightExpression);
+                    var currentExpression = _currentContext.MkDiv(leftExpression, rightExpression);
+                    return WrapAroundDomainIfNeeded(currentExpression, binaryExpressionSyntaxNode);
                 }
 
                 if (binaryExpressionSyntaxNode.OperationKind == EOperationKinds.Multiply)
@@ -128,7 +134,8 @@ namespace Tema1B_FMSE
                     var leftExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.LeftValue);
                     var rightExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.RightValue);
 
-                    return _currentContext.MkMul(leftExpression, rightExpression);
+                    var currentExpression = _currentContext.MkMul(leftExpression, rightExpression);
+                    return WrapAroundDomainIfNeeded(currentExpression, binaryExpressionSyntaxNode);
                 }
 
                 if (binaryExpressionSyntaxNode.OperationKind == EOperationKinds.Substract)
@@ -136,7 +143,8 @@ namespace Tema1B_FMSE
                     var leftExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.LeftValue);
                     var rightExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.RightValue);
 
-                    return _currentContext.MkSub(leftExpression, rightExpression);
+                    var currentExpression = _currentContext.MkSub(leftExpression, rightExpression);
+                    return WrapAroundDomainIfNeeded(currentExpression, binaryExpressionSyntaxNode);
                 }
 
                 if (binaryExpressionSyntaxNode.OperationKind == EOperationKinds.Less)
@@ -144,7 +152,8 @@ namespace Tema1B_FMSE
                     var leftExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.LeftValue);
                     var rightExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.RightValue);
 
-                    return _currentContext.MkLt(leftExpression, rightExpression);
+                    var currentExpression = _currentContext.MkLt(leftExpression, rightExpression);
+                    return WrapAroundDomainIfNeeded(currentExpression, binaryExpressionSyntaxNode);
                 }
 
                 if (binaryExpressionSyntaxNode.OperationKind == EOperationKinds.LessOrEqual)
@@ -152,7 +161,8 @@ namespace Tema1B_FMSE
                     var leftExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.LeftValue);
                     var rightExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.RightValue);
 
-                    return _currentContext.MkLe(leftExpression, rightExpression);
+                    var currentExpression = _currentContext.MkLe(leftExpression, rightExpression);
+                    return WrapAroundDomainIfNeeded(currentExpression, binaryExpressionSyntaxNode);
                 }
 
                 if (binaryExpressionSyntaxNode.OperationKind == EOperationKinds.Equal)
@@ -160,7 +170,8 @@ namespace Tema1B_FMSE
                     var leftExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.LeftValue);
                     var rightExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.RightValue);
 
-                    return _currentContext.MkEq(leftExpression, rightExpression);
+                    var currentExpression = _currentContext.MkEq(leftExpression, rightExpression);
+                    return WrapAroundDomainIfNeeded(currentExpression, binaryExpressionSyntaxNode);
                 }
 
                 if (binaryExpressionSyntaxNode.OperationKind == EOperationKinds.GreaterOrEqual)
@@ -168,7 +179,8 @@ namespace Tema1B_FMSE
                     var leftExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.LeftValue);
                     var rightExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.RightValue);
 
-                    return _currentContext.MkGe(leftExpression, rightExpression);
+                    var currentExpression = _currentContext.MkGe(leftExpression, rightExpression);
+                    return WrapAroundDomainIfNeeded(currentExpression, binaryExpressionSyntaxNode);
                 }
 
                 if (binaryExpressionSyntaxNode.OperationKind == EOperationKinds.Greater)
@@ -176,7 +188,8 @@ namespace Tema1B_FMSE
                     var leftExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.LeftValue);
                     var rightExpression = (IntExpr)ConstructExpression(binaryExpressionSyntaxNode.RightValue);
 
-                    return _currentContext.MkGt(leftExpression, rightExpression);
+                    var currentExpression = _currentContext.MkGt(leftExpression, rightExpression);
+                    return WrapAroundDomainIfNeeded(currentExpression, binaryExpressionSyntaxNode);
                 }
             }
 
@@ -190,6 +203,25 @@ namespace Tema1B_FMSE
             }
 
             return null;
+        }
+
+        public Expr WrapAroundDomainIfNeeded(Expr currentExpression, ValueSyntaxNode valueSyntaxNode)
+        {
+            if (valueSyntaxNode.DomainValue != null)
+            {
+                var domainExpression = ConstructExpression(valueSyntaxNode.DomainValue.InnerValue);
+
+                if (valueSyntaxNode.DomainValue.OperationKind == EOperationKinds.Any)
+                {
+                    currentExpression = _currentContext.MkForall(new Expr[] { domainExpression }, currentExpression);
+                }
+                else if (valueSyntaxNode.DomainValue.OperationKind == EOperationKinds.Exists)
+                {
+                    currentExpression = _currentContext.MkExists(new Expr[] { domainExpression }, currentExpression);
+                }
+            }
+
+            return currentExpression;
         }
 
         private void Initialize()

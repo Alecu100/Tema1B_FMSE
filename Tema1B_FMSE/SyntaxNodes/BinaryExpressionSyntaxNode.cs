@@ -69,7 +69,18 @@ namespace Tema1B_FMSE.SyntaxNodes
         {
             get
             {
-                return new List<SyntaxNode> { LeftValue, Operator, RightValue };
+                var children = new List<SyntaxNode>();
+
+                if (DomainValue != null)
+                {
+                    children.Add(DomainValue);
+                }
+
+                children.Add(LeftValue);
+                children.Add(Operator);
+                children.Add(RightValue);
+
+                return children;
             }
         }
     }

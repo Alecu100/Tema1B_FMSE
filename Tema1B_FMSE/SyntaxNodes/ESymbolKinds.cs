@@ -8,6 +8,7 @@ namespace Tema1B_FMSE.SyntaxNodes
 {
     public enum ESymbolKinds
     {
+        Any =  0,
         Boolean = 1,
         Integer = 2
     }

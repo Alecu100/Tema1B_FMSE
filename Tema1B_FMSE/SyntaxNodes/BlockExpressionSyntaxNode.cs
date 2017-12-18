@@ -50,12 +50,18 @@ namespace Tema1B_FMSE.SyntaxNodes
         {
             get
             {
-                return new List<SyntaxNode>
+                var children = new List<SyntaxNode>();
+
+                if (DomainValue != null)
                 {
-                    LeftParanthesis,
-                    InnerValue,
-                    RightParanthesis
-                };
+                    children.Add(DomainValue);
+                }
+
+                children.Add(LeftParanthesis);
+                children.Add(InnerValue);
+                children.Add(RightParanthesis);
+
+                return children;
             }
         }
     }
