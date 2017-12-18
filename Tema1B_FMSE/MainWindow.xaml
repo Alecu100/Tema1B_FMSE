@@ -16,56 +16,68 @@
         <TreeView x:Name="trViewSyntaxTree" Margin="11,151,10,43">
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type syntaxNodes:BinaryExpressionSyntaxNode }" ItemsSource="{Binding Children}">
-                    <WrapPanel>
+                    <Border BorderBrush="#FF000000" BorderThickness="1,1,1,1" CornerRadius="4,4,4,4" Margin="2">
+                        <WrapPanel>
                         <Label Content="Type: "></Label>
-                        <TextBlock Text="{Binding Path=Name}" />
+                        <Label Content="{Binding Path=Name}" />
                         <Label Content="OperationKind: "></Label>
-                        <TextBlock Text="{Binding Path=OperationKind}" />
+                        <Label Content="{Binding Path=OperationKind}" />
                         <Label Content="SymbolKind: "></Label>
-                        <TextBlock Text="{Binding Path=SymbolKind}" />
+                        <Label Content="{Binding Path=SymbolKind}" />
                     </WrapPanel>
+                </Border>
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type syntaxNodes:UnaryExpressionSyntaxNode }" ItemsSource="{Binding Children}">
-                    <WrapPanel>
+                    <Border BorderBrush="#FF000000" BorderThickness="1,1,1,1" CornerRadius="4,4,4,4" Margin="2">
+                        <WrapPanel>
                         <Label Content="Type: "></Label>
-                        <TextBlock Text="{Binding Path=Name}" />
+                        <Label Content="{Binding Path=Name}" />
                         <Label Content="OperationKind: "></Label>
-                        <TextBlock Text="{Binding Path=OperationKind}" />
+                        <Label Content="{Binding Path=OperationKind}" />
                         <Label Content="SymbolKind: "></Label>
-                        <TextBlock Text="{Binding Path=SymbolKind}" />
+                        <Label Content="{Binding Path=SymbolKind}" />
                     </WrapPanel>
+                </Border>
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type syntaxNodes:LiteralSyntaxNode }" ItemsSource="{Binding Children}">
-                    <WrapPanel>
+                    <Border BorderBrush="#FF000000" BorderThickness="1,1,1,1" CornerRadius="4,4,4,4" Margin="2">
+                        <WrapPanel>
                         <Label Content="Type: "></Label>
-                        <TextBlock Text="{Binding Path=Name}" />
+                        <Label Content="{Binding Path=Name}" />
                         <Label Content="Text: "></Label>
-                        <TextBlock Text="{Binding Path=LiteralValue}" />
+                        <Label Content="{Binding Path=LiteralValue}" />
                     </WrapPanel>
+                 </Border>
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type syntaxNodes:ConstantValueSyntaxNode }" ItemsSource="{Binding Children}">
-                    <WrapPanel>
-                        <Label Content="Type: "></Label>
-                        <TextBlock Text="{Binding Path=Name}" />
-                        <Label Content="Text: "></Label>
-                        <TextBlock Text="{Binding Path=LiteralValue}" />
-                        <Label Content="SymbolKind: "></Label>
-                        <TextBlock Text="{Binding Path=SymbolKind}" />
-                    </WrapPanel>
+                    <Border BorderBrush="#FF000000" BorderThickness="1,1,1,1" CornerRadius="4,4,4,4" Margin="2">
+                        <WrapPanel>
+                            <Label Content="Type: "></Label>
+                            <Label Content="{Binding Path=Name}" />
+                            <Label Content="Text: "></Label>
+                            <Label Content="{Binding Path=LiteralValue}" />
+                            <Label Content="SymbolKind: "></Label>
+                            <Label Content="{Binding Path=SymbolKind}" />
+                        </WrapPanel>
+                    </Border>
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type syntaxNodes:SymbolSyntaxNode }" ItemsSource="{Binding Children}">
-                    <WrapPanel>
+                    <Border BorderBrush="#FF000000" BorderThickness="1,1,1,1" CornerRadius="4,4,4,4" Margin="2">
+                        <WrapPanel>
                         <Label Content="Type: "></Label>
-                        <TextBlock Text="{Binding Path=Name}" />
+                        <Label Content="{Binding Path=Name}" />
                         <Label Content="Id: "></Label>
-                        <TextBlock Text="{Binding Path=Id}" />
+                        <Label Content="{Binding Path=Id}" />
                     </WrapPanel>
+                </Border>
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type syntaxNodes:SyntaxNode }" ItemsSource="{Binding Children}">
-                    <WrapPanel>
+                    <Border BorderBrush="#FF000000" BorderThickness="1,1,1,1" CornerRadius="4,4,4,4" Margin="2">
+                        <WrapPanel>
                         <Label Content="Type: "></Label>
-                        <TextBlock Text="{Binding Path=Name}" />
+                        <Label Content="{Binding Path=Name}" />
                     </WrapPanel>
+                </Border>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>
