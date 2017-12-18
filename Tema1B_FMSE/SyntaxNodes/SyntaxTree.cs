@@ -1,4 +1,6 @@
-﻿namespace Tema1B_FMSE.SyntaxNodes
+﻿using System.Collections.Generic;
+
+namespace Tema1B_FMSE.SyntaxNodes
 {
     public class SyntaxTree : SyntaxNode
     {
@@ -7,6 +9,14 @@
         public override void AssignChild(SyntaxNode child)
         {
             RootValue = child;
+        }
+
+        public override IEnumerable<SyntaxNode> Children
+        {
+            get
+            {
+                return new List<SyntaxNode> { RootValue };
+            }
         }
     }
 }

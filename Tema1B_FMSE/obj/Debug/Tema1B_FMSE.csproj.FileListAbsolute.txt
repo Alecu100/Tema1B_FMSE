@@ -15,3 +15,4 @@ E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\Tema1B_FMSE.Properties.Resources
 E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\Tema1B_FMSE.csproj.GenerateResource.Cache
 E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\Tema1B_FMSE.exe
 E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\Tema1B_FMSE.pdb
+E:\stuff\teme\Tema1B_FMSE\Tema1B_FMSE\obj\Debug\GeneratedInternalTypeHelper.g.cs

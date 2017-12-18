@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 
 namespace Tema1B_FMSE.SyntaxNodes
 {
@@ -55,6 +56,14 @@ namespace Tema1B_FMSE.SyntaxNodes
                 valueSyntaxNode.Parent = this;
                 EndIndex = valueSyntaxNode.EndIndex;
                 _isFinishedReading = true;
+            }
+        }
+
+        public override IEnumerable<SyntaxNode> Children
+        {
+            get
+            {
+                return new List<SyntaxNode> { LeftValue, Operator, RightValue };
             }
         }
     }

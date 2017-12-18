@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Tema1B_FMSE.SyntaxNodes
 {
@@ -27,6 +28,14 @@ namespace Tema1B_FMSE.SyntaxNodes
                     Id += symbolSyntaxNode.Id;
                     EndIndex = symbolSyntaxNode.EndIndex;
                 }
+            }
+        }
+
+        public override IEnumerable<SyntaxNode> Children
+        {
+            get
+            {
+                return new List<SyntaxNode>();
             }
         }
     }

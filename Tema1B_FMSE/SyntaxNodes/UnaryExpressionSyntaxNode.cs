@@ -1,4 +1,6 @@
-﻿namespace Tema1B_FMSE.SyntaxNodes
+﻿using System.Collections.Generic;
+
+namespace Tema1B_FMSE.SyntaxNodes
 {
     public class UnaryExpressionSyntaxNode : ValueSyntaxNode
     {
@@ -31,6 +33,14 @@
                 valueSyntaxNode.Parent = this;
                 EndIndex = valueSyntaxNode.EndIndex;
                 _isFinishedReading = true;
+            }
+        }
+
+        public override IEnumerable<SyntaxNode> Children
+        {
+            get
+            {
+                return new List<SyntaxNode> { Operator, InnerValue };
             }
         }
     }

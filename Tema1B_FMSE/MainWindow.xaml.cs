@@ -31,7 +31,9 @@ namespace Tema1B_FMSE
         {
             var syntaxTreeParser = new SyntaxTreeParser();
 
-            syntaxTreeParser.Parse(txtExpression.Text);
+            var parsedSyntaxTree = syntaxTreeParser.Parse(txtExpression.Text);
+
+            trViewSyntaxTree.ItemsSource = new List<SyntaxNode> {parsedSyntaxTree};
         }
     }
 }

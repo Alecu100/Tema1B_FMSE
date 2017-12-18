@@ -77,6 +77,8 @@ namespace Tema1B_FMSE.SyntaxNodes
                     var unaryExpressionSyntaxNode = new UnaryExpressionSyntaxNode();
                     unaryExpressionSyntaxNode.AssignChild(literalSyntaxNode);
 
+                    AssignValueNodeToLastNodePopingIfNeeded(unaryExpressionSyntaxNode);
+
                     PushSyntaxNodeClosingPreviousIfAvailable(unaryExpressionSyntaxNode);
 
                     return;
@@ -121,7 +123,8 @@ namespace Tema1B_FMSE.SyntaxNodes
 
                 if (_availableSyntaxNodes.Count > 0 && !_availableSyntaxNodes.Peek().IsFinishedReading)
                 {
-                    _availableSyntaxNodes.Peek().AssignChild(syntaxNode);
+                    AssignValueNodeToLastNodePopingIfNeeded(symbolSyntaxNode);
+
                     _availableSyntaxNodes.Push(syntaxNode);
 
                     return;
@@ -129,17 +132,22 @@ namespace Tema1B_FMSE.SyntaxNodes
 
                 if (_availableSyntaxNodes.Count > 0 && _availableSyntaxNodes.Peek() is SymbolSyntaxNode)
                 {
-                    _availableSyntaxNodes.Peek().AssignChild(symbolSyntaxNode);
-
-                    if (_availableSyntaxNodes.Peek().IsFinishedReading)
-                    {
-                        _availableSyntaxNodes.Pop();
-                    }
+                    AssignValueNodeToLastNodePopingIfNeeded(symbolSyntaxNode);
 
                     return;
                 }
 
                 _availableSyntaxNodes.Push(symbolSyntaxNode);
+            }
+        }
+
+        private void AssignValueNodeToLastNodePopingIfNeeded(ValueSyntaxNode valueSyntaxNode)
+        {
+            _availableSyntaxNodes.Peek().AssignChild(valueSyntaxNode);
+
+            if (_availableSyntaxNodes.Peek().IsFinishedReading && _availableSyntaxNodes.Peek().Parent != null)
+            {
+                _availableSyntaxNodes.Pop();
             }
         }
 

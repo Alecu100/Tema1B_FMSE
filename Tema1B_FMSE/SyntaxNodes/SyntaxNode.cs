@@ -1,4 +1,6 @@
-﻿namespace Tema1B_FMSE.SyntaxNodes
+﻿using System.Collections.Generic;
+
+namespace Tema1B_FMSE.SyntaxNodes
 {
     public abstract class SyntaxNode
     {
@@ -17,5 +19,12 @@
         public int EndIndex { get; set; }
 
         public abstract void AssignChild(SyntaxNode child);
+
+        public abstract IEnumerable<SyntaxNode> Children { get; }
+
+        public string Name
+        {
+            get { return GetType().Name; }
+        }
     }
 }

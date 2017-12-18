@@ -4,12 +4,57 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tema1B_FMSE"
+        xmlns:syntaxNodes="clr-namespace:Tema1B_FMSE.SyntaxNodes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="387.333" Width="525">
     <Grid>
-        <Button x:Name="btnProve" Content="Prove" HorizontalAlignment="Left" Margin="10,89,0,0" VerticalAlignment="Top" Width="75" Click="BtnProve_OnClick" Height="29"/>
-        <TextBox x:Name="txtExpression" HorizontalAlignment="Left" Height="74" Margin="10,10,0,0" TextWrapping="Wrap" Text="(x and y) imp x" VerticalAlignment="Top" Width="497"/>
-        <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="90,89,0,0" VerticalAlignment="Top" Width="75" Height="29"/>
-        <Label x:Name="lblLegend" Content="Legend: and=and, or=or, not=not, implication=imp " HorizontalAlignment="Left" Margin="178,91,0,0" VerticalAlignment="Top" Height="27"/>
+        <Button x:Name="btnProve" Content="Prove" HorizontalAlignment="Left" Margin="10,0,0,9" Width="75" Click="BtnProve_OnClick" Height="29" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="txtExpression" Height="74" Margin="11,41,9,0" TextWrapping="Wrap" Text="(x and y) imp x" VerticalAlignment="Top"/>
+        <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="90,0,0,9" Width="75" Height="29" VerticalAlignment="Bottom"/>
+        <Label x:Name="lblLegend" Content="Legend: and=and, or=or, not=not, implication=imp " Margin="0,0,10,9" HorizontalAlignment="Right" Width="286" Height="27" VerticalAlignment="Bottom"/>
+        <Label x:Name="lblExpression" Content="Expression:" HorizontalAlignment="Left" Margin="11,10,0,0" VerticalAlignment="Top"/>
+        <TreeView x:Name="trViewSyntaxTree" Margin="11,151,10,43">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type syntaxNodes:BinaryExpressionSyntaxNode }" ItemsSource="{Binding Children}">
+                    <WrapPanel>
+                        <Label Content="Type: "></Label>
+                        <TextBlock Text="{Binding Path=Name}" />
+                        <Label Content="Kind: "></Label>
+                        <TextBlock Text="{Binding Path=OperationKind}" />
+                    </WrapPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type syntaxNodes:UnaryExpressionSyntaxNode }" ItemsSource="{Binding Children}">
+                    <WrapPanel>
+                        <Label Content="Type: "></Label>
+                        <TextBlock Text="{Binding Path=Name}" />
+                        <Label Content="Kind: "></Label>
+                        <TextBlock Text="{Binding Path=OperationKind}" />
+                    </WrapPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type syntaxNodes:LiteralSyntaxNode }" ItemsSource="{Binding Children}">
+                    <WrapPanel>
+                        <Label Content="Type: "></Label>
+                        <TextBlock Text="{Binding Path=Name}" />
+                        <Label Content="Text: "></Label>
+                        <TextBlock Text="{Binding Path=LiteralValue}" />
+                    </WrapPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type syntaxNodes:SymbolSyntaxNode }" ItemsSource="{Binding Children}">
+                    <WrapPanel>
+                        <Label Content="Type: "></Label>
+                        <TextBlock Text="{Binding Path=Name}" />
+                        <Label Content="Id: "></Label>
+                        <TextBlock Text="{Binding Path=Id}" />
+                    </WrapPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type syntaxNodes:SyntaxNode }" ItemsSource="{Binding Children}">
+                    <WrapPanel>
+                        <Label Content="Type: "></Label>
+                        <TextBlock Text="{Binding Path=Name}" />
+                    </WrapPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+        <Label x:Name="lblSyntaxTree" Content="Syntax Tree:" HorizontalAlignment="Left" Margin="11,120,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

@@ -1,4 +1,6 @@
-﻿namespace Tema1B_FMSE.SyntaxNodes
+﻿using System.Collections.Generic;
+
+namespace Tema1B_FMSE.SyntaxNodes
 {
     public class BlockExpressionSyntaxNode : ValueSyntaxNode
     {
@@ -24,7 +26,7 @@
 
             if (InnerValue == null)
             {
-                var valueSyntaxNode = (ValueSyntaxNode)child;
+                var valueSyntaxNode = (ValueSyntaxNode) child;
 
                 InnerValue = valueSyntaxNode;
                 valueSyntaxNode.Parent = this;
@@ -35,12 +37,25 @@
 
             if (RightParanthesis == null)
             {
-                var literalSyntaxNode = (LiteralSyntaxNode)child;
+                var literalSyntaxNode = (LiteralSyntaxNode) child;
 
                 RightParanthesis = literalSyntaxNode;
                 literalSyntaxNode.Parent = this;
                 EndIndex = literalSyntaxNode.EndIndex;
                 _isFinishedReading = true;
+            }
+        }
+
+        public override IEnumerable<SyntaxNode> Children
+        {
+            get
+            {
+                return new List<SyntaxNode>
+                {
+                    LeftParanthesis,
+                    InnerValue,
+                    RightParanthesis
+                };
             }
         }
     }
