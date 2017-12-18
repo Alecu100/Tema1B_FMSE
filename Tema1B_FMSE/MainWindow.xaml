@@ -112,8 +112,8 @@
                Height="26" VerticalAlignment="Bottom" />
         <Label x:Name="lblIsSatisfiableVal" Content="" HorizontalAlignment="Left" Margin="267,0,0,10" Height="26"
                VerticalAlignment="Bottom" />
-        <ListBox x:Name="lstExamples" HorizontalAlignment="Left" Height="108" Margin="11,101,0,0"
-                 VerticalAlignment="Top" Width="753"
+        <ListBox x:Name="lstExamples" Height="108" Margin="11,101,10,0"
+                 VerticalAlignment="Top"
                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
                                                          AncestorType={x:Type Window}},
                                                          Path=ExpressionExamples}">
