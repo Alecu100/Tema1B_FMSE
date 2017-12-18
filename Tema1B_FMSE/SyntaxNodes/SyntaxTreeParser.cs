@@ -59,6 +59,8 @@ namespace Tema1B_FMSE.SyntaxNodes
                 if (literalSyntaxNode.LiteralValue == "and" || literalSyntaxNode.LiteralValue == "or" ||
                     literalSyntaxNode.LiteralValue == "imp")
                 {
+                    FinishAndPopLastSymbolSyntaxNodeIfNeeded();
+
                     var binaryExpressionSyntaxNode = new BinaryExpressionSyntaxNode();
 
                     var valueSyntaxNode = (ValueSyntaxNode)_availableSyntaxNodes.Pop();
@@ -165,7 +167,7 @@ namespace Tema1B_FMSE.SyntaxNodes
 
         private void FinishAndPopLastSymbolSyntaxNodeIfNeeded()
         {
-            if (_availableSyntaxNodes.Peek() is SymbolSyntaxNode)
+            if (_availableSyntaxNodes.Peek() is SymbolSyntaxNode && _availableSyntaxNodes.Peek().Parent != null)
             {
                 var lastSymbolSyntaxNode = _availableSyntaxNodes.Pop();
                 lastSymbolSyntaxNode.IsFinishedReading = true;
