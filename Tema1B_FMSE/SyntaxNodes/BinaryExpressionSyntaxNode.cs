@@ -31,20 +31,11 @@ namespace Tema1B_FMSE.SyntaxNodes
             {
                 var literalSyntaxNode = (LiteralSyntaxNode)child;
 
-                if (literalSyntaxNode.LiteralValue == "and")
-                {
-                    OperationKind = EOperationKinds.And;
-                } else if (literalSyntaxNode.LiteralValue == "or")
-                {
-                    OperationKind = EOperationKinds.Or;
-                } else if (literalSyntaxNode.LiteralValue == "imp")
-                {
-                    OperationKind = EOperationKinds.Implication;
-                }
-
+                OperationKind = OperatorsInformation.MappedOperationKinds[literalSyntaxNode.LiteralValue];
                 Operator = literalSyntaxNode;
                 literalSyntaxNode.Parent = this;
                 EndIndex = literalSyntaxNode.EndIndex;
+                AssignSymbolKindToThis();
 
                 return;
             }
@@ -56,7 +47,22 @@ namespace Tema1B_FMSE.SyntaxNodes
                 valueSyntaxNode.Parent = this;
                 EndIndex = valueSyntaxNode.EndIndex;
                 _isFinishedReading = true;
+
+                AssignSymbolKindsToValues();
             }
+        }
+
+        private void AssignSymbolKindToThis()
+        {
+            SymbolKind = OperatorsInformation.MappedOperationResults[OperationKind];
+        }
+
+        private void AssignSymbolKindsToValues()
+        {
+            var symbolKind = OperatorsInformation.MappedOperationInputs[OperationKind];
+
+            LeftValue.SymbolKind = symbolKind;
+            RightValue.SymbolKind = symbolKind;
         }
 
         public override IEnumerable<SyntaxNode> Children

@@ -62,8 +62,11 @@
     <Compile Include="BooleanExpressionsProver.cs" />
     <Compile Include="SyntaxNodes\BinaryExpressionSyntaxNode.cs" />
     <Compile Include="SyntaxNodes\BlockExpressionSyntaxNode.cs" />
+    <Compile Include="SyntaxNodes\ConstantValueSyntaxNode.cs" />
     <Compile Include="SyntaxNodes\EOperationKinds.cs" />
+    <Compile Include="SyntaxNodes\ESymbolKinds.cs" />
     <Compile Include="SyntaxNodes\LiteralSyntaxNode.cs" />
+    <Compile Include="SyntaxNodes\OperatorsInformation.cs" />
     <Compile Include="SyntaxNodes\SymbolSyntaxNode.cs" />
     <Compile Include="SyntaxNodes\SyntaxNode.cs" />
     <Compile Include="SyntaxNodes\SyntaxTree.cs" />

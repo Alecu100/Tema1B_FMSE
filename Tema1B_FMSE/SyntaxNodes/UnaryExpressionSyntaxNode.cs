@@ -33,7 +33,16 @@ namespace Tema1B_FMSE.SyntaxNodes
                 valueSyntaxNode.Parent = this;
                 EndIndex = valueSyntaxNode.EndIndex;
                 _isFinishedReading = true;
+
+                AssignSymbolKindsToValues();
             }
+        }
+
+        private void AssignSymbolKindsToValues()
+        {
+            var symbolKind = OperatorsInformation.MappedOperationInputs[OperationKind];
+
+            InnerValue.SymbolKind = symbolKind;
         }
 
         public override IEnumerable<SyntaxNode> Children

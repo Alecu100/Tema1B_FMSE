@@ -2,5 +2,6 @@
 {
     public abstract class ValueSyntaxNode : SyntaxNode
     {
+        public ESymbolKinds SymbolKind { get; set; } 
     }
 }
