@@ -17,6 +17,8 @@ using Microsoft.Z3;
 
 namespace Tema1B_FMSE
 {
+    using System.Collections.ObjectModel;
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -25,7 +27,14 @@ namespace Tema1B_FMSE
         public MainWindow()
         {
             InitializeComponent();
+
+            ExpressionExamples.Add(new ExpressionExample("x and not x"));
+            ExpressionExamples.Add(new ExpressionExample("(x and y and not z) imp (x and not z)"));
+            ExpressionExamples.Add(new ExpressionExample("(x or not x) imp (x and not x)"));
+            ExpressionExamples.Add(new ExpressionExample("any (n) ((n gt 10) imp (n gt 15))"));
         }
+
+        public ObservableCollection<ExpressionExample> ExpressionExamples { get; } = new ObservableCollection<ExpressionExample>();
  
 
         private void BtnProve_OnClick(object sender, RoutedEventArgs e)
@@ -48,6 +57,13 @@ namespace Tema1B_FMSE
             {
                 lblIsSatisfiableVal.Content = "No";
             }
+        }
+
+        private void Control_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var label = (Label)sender;
+            var item = (ExpressionExample)label.DataContext;
+            txtExpression.Text = item.Text;
         }
     }
 }

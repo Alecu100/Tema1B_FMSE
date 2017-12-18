@@ -60,6 +60,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BooleanExpressionsProver.cs" />
+    <Compile Include="ExpressionExample.cs" />
     <Compile Include="SyntaxNodes\BinaryExpressionSyntaxNode.cs" />
     <Compile Include="SyntaxNodes\BlockExpressionSyntaxNode.cs" />
     <Compile Include="SyntaxNodes\ConstantValueSyntaxNode.cs" />

@@ -20,5 +20,13 @@ namespace Tema1B_FMSE.SyntaxNodes
                 return int.Parse(LiteralValue);
             }
         }
+
+        public override IEnumerable<SyntaxNode> Children
+        {
+            get
+            {
+                return new List<SyntaxNode>();
+            }
+        }
     }
 }
