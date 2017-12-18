@@ -108,7 +108,12 @@ namespace Tema1B_FMSE.SyntaxNodes
                     blockExpressionSyntaxNode.AssignChild(valueSyntaxNode);
                     blockExpressionSyntaxNode.AssignChild(literalSyntaxNode);
 
-                    PushSyntaxNodeClosingPreviousIfAvailable(blockExpressionSyntaxNode);
+                    AssignValueNodeToLastNodePopingIfNeeded(blockExpressionSyntaxNode);
+
+                    if (blockExpressionSyntaxNode.Parent == null)
+                    {
+                        PushSyntaxNodeClosingPreviousIfAvailable(blockExpressionSyntaxNode);
+                    }
 
                     return;
                 }
@@ -145,11 +150,14 @@ namespace Tema1B_FMSE.SyntaxNodes
 
         private void AssignValueNodeToLastNodePopingIfNeeded(ValueSyntaxNode valueSyntaxNode)
         {
-            _availableSyntaxNodes.Peek().AssignChild(valueSyntaxNode);
-
-            if (_availableSyntaxNodes.Peek().IsFinishedReading && _availableSyntaxNodes.Peek().Parent != null)
+            if (_availableSyntaxNodes.Count > 0)
             {
-                _availableSyntaxNodes.Pop();
+                _availableSyntaxNodes.Peek().AssignChild(valueSyntaxNode);
+
+                if (_availableSyntaxNodes.Peek().IsFinishedReading && _availableSyntaxNodes.Peek().Parent != null)
+                {
+                    _availableSyntaxNodes.Pop();
+                }
             }
         }
 
