@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Tema1B_FMSE"
         xmlns:syntaxNodes="clr-namespace:Tema1B_FMSE.SyntaxNodes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="387.333" Width="525">
+        Title="MainWindow" Height="454.666" Width="782.333">
     <Grid>
         <Button x:Name="btnProve" Content="Prove" HorizontalAlignment="Left" Margin="10,0,0,9" Width="75" Click="BtnProve_OnClick" Height="29" VerticalAlignment="Bottom"/>
         <TextBox x:Name="txtExpression" Height="74" Margin="11,41,9,0" TextWrapping="Wrap" Text="(x and y and not z) imp (x and not z)" VerticalAlignment="Top"/>
@@ -56,5 +56,7 @@
             </TreeView.Resources>
         </TreeView>
         <Label x:Name="lblSyntaxTree" Content="Syntax Tree:" HorizontalAlignment="Left" Margin="11,120,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblIsSatisfiable" Content="Is Satisfiable:" HorizontalAlignment="Left" Margin="184,0,0,10" Height="26" VerticalAlignment="Bottom"/>
+        <Label x:Name="lblIsSatisfiableVal" Content="" HorizontalAlignment="Left" Margin="267,0,0,10" Height="26" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>
