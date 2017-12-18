@@ -91,6 +91,8 @@
                             <Label Content="{Binding Path=Name}" />
                             <Label Content="Id: " />
                             <Label Content="{Binding Path=Id}" />
+                            <Label Content="SymbolKind: " />
+                            <Label Content="{Binding Path=SymbolKind}" />
                         </WrapPanel>
                     </Border>
                 </HierarchicalDataTemplate>
