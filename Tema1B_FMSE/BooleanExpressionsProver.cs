@@ -1,14 +1,19 @@
-﻿using System.Collections.Generic;
-using Microsoft.Z3;
-using Tema1B_FMSE.SyntaxNodes;
-
-namespace Tema1B_FMSE
+﻿namespace Tema1B_FMSE
 {
+    using System.Collections.Generic;
+
+    using Microsoft.Z3;
+
+    using Tema1B_FMSE.SyntaxNodes;
+
     public class BooleanExpressionsProver
     {
         private Dictionary<string, BoolExpr> _createdBoolSymbols;
+
         private Dictionary<string, IntExpr> _createdIntSymbols;
+
         private Context _currentContext;
+
         private BoolExpr _expressionTree;
 
         public bool IsSatisfiable(SyntaxTree syntaxTree)
@@ -25,8 +30,7 @@ namespace Tema1B_FMSE
             solver.Assert(_expressionTree);
             var status = solver.Check();
 
-            if (status == Status.SATISFIABLE)
-                return true;
+            if (status == Status.SATISFIABLE) return true;
 
             return false;
         }
@@ -40,27 +44,25 @@ namespace Tema1B_FMSE
         {
             if (syntaxNode is BlockExpressionSyntaxNode)
             {
-                var blockExpressionSyntaxNode = (BlockExpressionSyntaxNode) syntaxNode;
+                var blockExpressionSyntaxNode = (BlockExpressionSyntaxNode)syntaxNode;
 
                 return ConstructExpression(blockExpressionSyntaxNode.InnerValue);
             }
 
             if (syntaxNode is SymbolSyntaxNode)
             {
-                var symbolSyntaxNode = (SymbolSyntaxNode) syntaxNode;
+                var symbolSyntaxNode = (SymbolSyntaxNode)syntaxNode;
 
                 if (symbolSyntaxNode.SymbolKind == ESymbolKinds.Boolean)
                 {
-                    if (_createdBoolSymbols.ContainsKey(symbolSyntaxNode.Id))
-                        return WrapAroundDomainIfNeeded(_createdBoolSymbols[symbolSyntaxNode.Id], symbolSyntaxNode);
+                    if (_createdBoolSymbols.ContainsKey(symbolSyntaxNode.Id)) return WrapAroundDomainIfNeeded(_createdBoolSymbols[symbolSyntaxNode.Id], symbolSyntaxNode);
 
                     var boolExpr = _currentContext.MkBoolConst(symbolSyntaxNode.Id);
                     _createdBoolSymbols[symbolSyntaxNode.Id] = boolExpr;
                     return WrapAroundDomainIfNeeded(boolExpr, symbolSyntaxNode);
                 }
 
-                if (_createdIntSymbols.ContainsKey(symbolSyntaxNode.Id))
-                    return WrapAroundDomainIfNeeded(_createdIntSymbols[symbolSyntaxNode.Id], symbolSyntaxNode);
+                if (_createdIntSymbols.ContainsKey(symbolSyntaxNode.Id)) return WrapAroundDomainIfNeeded(_createdIntSymbols[symbolSyntaxNode.Id], symbolSyntaxNode);
 
                 var intExpr = _currentContext.MkIntConst(symbolSyntaxNode.Id);
                 _createdIntSymbols[symbolSyntaxNode.Id] = intExpr;
@@ -69,18 +71,17 @@ namespace Tema1B_FMSE
 
             if (syntaxNode is ConstantValueSyntaxNode)
             {
-                var constantValueSyntaxNode = (ConstantValueSyntaxNode) syntaxNode;
+                var constantValueSyntaxNode = (ConstantValueSyntaxNode)syntaxNode;
 
-                if (constantValueSyntaxNode.Value is bool)
-                    return _currentContext.MkBool((bool) constantValueSyntaxNode.Value);
+                if (constantValueSyntaxNode.Value is bool) return _currentContext.MkBool((bool)constantValueSyntaxNode.Value);
 
-                var currentExpression = _currentContext.MkInt((int) constantValueSyntaxNode.Value);
+                var currentExpression = _currentContext.MkInt((int)constantValueSyntaxNode.Value);
                 return WrapAroundDomainIfNeeded(currentExpression, constantValueSyntaxNode);
             }
 
             if (syntaxNode is BinaryExpressionSyntaxNode)
             {
-                var binaryExpressionSyntaxNode = (BinaryExpressionSyntaxNode) syntaxNode;
+                var binaryExpressionSyntaxNode = (BinaryExpressionSyntaxNode)syntaxNode;
 
                 if (binaryExpressionSyntaxNode.OperationKind == EOperationKinds.And)
                 {
@@ -91,7 +92,6 @@ namespace Tema1B_FMSE
                     return WrapAroundDomainIfNeeded(currentExpression, binaryExpressionSyntaxNode);
                 }
 
-
                 if (binaryExpressionSyntaxNode.OperationKind == EOperationKinds.Or)
                 {
                     var leftExpression = (BoolExpr)ConstructExpression(binaryExpressionSyntaxNode.LeftValue);
@@ -100,7 +100,6 @@ namespace Tema1B_FMSE
                     var currentExpression = _currentContext.MkOr(leftExpression, rightExpression);
                     return WrapAroundDomainIfNeeded(currentExpression, binaryExpressionSyntaxNode);
                 }
-
 
                 if (binaryExpressionSyntaxNode.OperationKind == EOperationKinds.Implication)
                 {
@@ -195,11 +194,10 @@ namespace Tema1B_FMSE
 
             if (syntaxNode is UnaryExpressionSyntaxNode)
             {
-                var unaryExpressionSyntaxNode = (UnaryExpressionSyntaxNode) syntaxNode;
-                var innerExpression = (BoolExpr) ConstructExpression(unaryExpressionSyntaxNode.InnerValue);
+                var unaryExpressionSyntaxNode = (UnaryExpressionSyntaxNode)syntaxNode;
+                var innerExpression = (BoolExpr)ConstructExpression(unaryExpressionSyntaxNode.InnerValue);
 
-                if (unaryExpressionSyntaxNode.OperationKind == EOperationKinds.Not)
-                    return _currentContext.MkNot(innerExpression);
+                if (unaryExpressionSyntaxNode.OperationKind == EOperationKinds.Not) return _currentContext.MkNot(innerExpression);
             }
 
             return null;
@@ -213,11 +211,11 @@ namespace Tema1B_FMSE
 
                 if (valueSyntaxNode.DomainValue.OperationKind == EOperationKinds.Any)
                 {
-                    currentExpression = _currentContext.MkForall(new Expr[] { domainExpression }, currentExpression);
+                    currentExpression = _currentContext.MkForall(new[] { domainExpression }, currentExpression);
                 }
                 else if (valueSyntaxNode.DomainValue.OperationKind == EOperationKinds.Exists)
                 {
-                    currentExpression = _currentContext.MkExists(new Expr[] { domainExpression }, currentExpression);
+                    currentExpression = _currentContext.MkExists(new[] { domainExpression }, currentExpression);
                 }
             }
 
@@ -226,7 +224,7 @@ namespace Tema1B_FMSE
 
         private void Initialize()
         {
-            _currentContext = new Context();
+            _currentContext = new Context(new Dictionary<string, string> { { "mbqi", "true" } });
             _createdBoolSymbols = new Dictionary<string, BoolExpr>();
             _createdIntSymbols = new Dictionary<string, IntExpr>();
         }
