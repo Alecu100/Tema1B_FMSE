@@ -63,6 +63,7 @@
     <Compile Include="SyntaxNodes\BinaryExpressionSyntaxNode.cs" />
     <Compile Include="SyntaxNodes\BlockExpressionSyntaxNode.cs" />
     <Compile Include="SyntaxNodes\ConstantValueSyntaxNode.cs" />
+    <Compile Include="SyntaxNodes\DomainValueSyntaxNode.cs" />
     <Compile Include="SyntaxNodes\EOperationKinds.cs" />
     <Compile Include="SyntaxNodes\ESymbolKinds.cs" />
     <Compile Include="SyntaxNodes\LiteralSyntaxNode.cs" />

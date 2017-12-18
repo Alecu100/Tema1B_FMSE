@@ -5,11 +5,11 @@
 
     public abstract class ValueSyntaxNode : SyntaxNode
     {
-        private UnaryExpressionSyntaxNode _domainValue;
+        private DomainValueSyntaxNode _domainValue;
 
         public ESymbolKinds SymbolKind { get; set; }
 
-        public UnaryExpressionSyntaxNode DomainValue
+        public DomainValueSyntaxNode DomainValue
         {
             get
             {
@@ -27,7 +27,7 @@
             }
         }
 
-        public void AssignDomainValue(UnaryExpressionSyntaxNode domainValue)
+        public void AssignDomainValue(DomainValueSyntaxNode domainValue)
         {
             _domainValue = domainValue;
             domainValue.Parent = this;

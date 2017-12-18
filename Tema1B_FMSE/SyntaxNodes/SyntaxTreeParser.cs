@@ -23,16 +23,16 @@ namespace Tema1B_FMSE.SyntaxNodes
             {
                 var nextFoundToken = ReadNextToken();
 
-                if (LandedOnCloseParanthesis(nextFoundToken) ||
-                    LandedOnOpenParanthesis(nextFoundToken) ||
-                    LandedOnOperator(nextFoundToken) != null)
+                if (LandedOnCloseParanthesis(nextFoundToken) || LandedOnOpenParanthesis(nextFoundToken)
+                    || LandedOnDomainOperator(nextFoundToken) != null || LandedOnOperator(nextFoundToken) != null)
                 {
                     var literalSyntaxNode = new LiteralSyntaxNode
-                    {
-                        StartIndex = _indexInExpression,
-                        EndIndex = _indexInExpression + nextFoundToken.Length,
-                        LiteralValue = nextFoundToken
-                    };
+                                                {
+                                                    StartIndex = _indexInExpression,
+                                                    EndIndex =
+                                                        _indexInExpression + nextFoundToken.Length,
+                                                    LiteralValue = nextFoundToken
+                                                };
 
                     PushNewSyntaxNode(literalSyntaxNode);
                     continue;
@@ -96,6 +96,14 @@ namespace Tema1B_FMSE.SyntaxNodes
                     PushSyntaxNodeClosingPreviousIfAvailable(unaryExpressionSyntaxNode);
 
                     return;
+                }
+
+                if (LandedOnDomainOperator(literalSyntaxNode.LiteralValue) != null)
+                {
+                    var domainValueSyntaxNode = new DomainValueSyntaxNode();
+                    domainValueSyntaxNode.AssignChild(literalSyntaxNode);
+
+                    PushSyntaxNodeClosingPreviousIfAvailable(domainValueSyntaxNode);
                 }
 
                 if (literalSyntaxNode.LiteralValue == "(")
@@ -200,14 +208,14 @@ namespace Tema1B_FMSE.SyntaxNodes
                 PopSymbolSyntaxNodeIfUsedAndFinished();
             }
 
-            if (_availableSyntaxNodes.Count > 0 && (_availableSyntaxNodes.Peek() is UnaryExpressionSyntaxNode) && _availableSyntaxNodes.Peek().IsFinishedReading && (syntaxNodeToPush is ValueSyntaxNode))
+            if (_availableSyntaxNodes.Count > 0 && (_availableSyntaxNodes.Peek() is DomainValueSyntaxNode) && _availableSyntaxNodes.Peek().IsFinishedReading && (syntaxNodeToPush is ValueSyntaxNode))
             {
-                var unaryExpressionSyntaxNode = (UnaryExpressionSyntaxNode)_availableSyntaxNodes.Peek();
+                var domainValueSyntaxNode = (DomainValueSyntaxNode)_availableSyntaxNodes.Peek();
                 var valueSyntaxNodeToPush = (ValueSyntaxNode)syntaxNodeToPush;
 
-                if (unaryExpressionSyntaxNode.OperationKind == EOperationKinds.Any || unaryExpressionSyntaxNode.OperationKind == EOperationKinds.Exists)
+                if (domainValueSyntaxNode.OperationKind == EOperationKinds.Any || domainValueSyntaxNode.OperationKind == EOperationKinds.Exists)
                 {
-                    valueSyntaxNodeToPush.AssignDomainValue(unaryExpressionSyntaxNode);
+                    valueSyntaxNodeToPush.AssignDomainValue(domainValueSyntaxNode);
                 }
 
                 _availableSyntaxNodes.Pop();
@@ -355,6 +363,24 @@ namespace Tema1B_FMSE.SyntaxNodes
             }
 
             return false;
+        }
+
+        private string LandedOnDomainOperator(string expression, int startIndex = 0)
+        {
+            foreach (var operatorCode in OperatorsInformation.MappedDomainOperations)
+            {
+                if (startIndex + operatorCode.Length <= expression.Length)
+                {
+                    var op = expression.Substring(startIndex, operatorCode.Length);
+
+                    if (op == operatorCode)
+                    {
+                        return op;
+                    }
+                }
+            }
+
+            return null;
         }
 
         private bool LandedOnOpenParanthesis(string expression, int startIndex = 0)
