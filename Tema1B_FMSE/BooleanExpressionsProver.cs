@@ -262,20 +262,15 @@
         {
             if (valueSyntaxNode.DomainValue != null)
             {
-                var domainSymbol = ConstructSymbol(valueSyntaxNode.DomainValue.InnerValue);
-
-                Sort[] sorts = new Sort[1];
-                sorts[0] = _currentContext.MkIntSort();
-                Symbol[] symbols = new Symbol[1];
-                symbols[0] = domainSymbol;
+                var domainExpression = ConstructExpression(valueSyntaxNode.DomainValue.InnerValue);
 
                 if (valueSyntaxNode.DomainValue.OperationKind == EOperationKinds.Any)
                 {
-                    currentExpression = _currentContext.MkForall(sorts, symbols, currentExpression);
+                    currentExpression = _currentContext.MkForall(new Expr[] { domainExpression },  currentExpression);
                 }
                 else if (valueSyntaxNode.DomainValue.OperationKind == EOperationKinds.Exists)
                 {
-                    currentExpression = _currentContext.MkExists(sorts, symbols, currentExpression);
+                    currentExpression = _currentContext.MkExists(new Expr[] { domainExpression }, currentExpression);
                 }
             }
 
